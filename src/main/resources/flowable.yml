@@ -1,0 +1,57 @@
+flowable:
+  check-process-definitions: true #是否需要自动部署流程定义。
+  content:
+    enabled: false # 是否启动Content引擎。'
+    servlet:
+      load-on-startup: -1 # 启动时加载Content servlet。'
+      name: Taihang Flowable Content Rest API # Content servlet的名字。'
+      path: /content-api # Content servlet的context path。'
+    storage:
+      create-root: true # 如果根路径不存在，是否需要创建？'
+      root-folder: # 存储content文件（如上传的任务附件，或表单文件）的根路径。'
+  database-schema-update: true # 数据库schema更新策略。'
+  db-history-used: true # 是否要使用db历史。'
+  deployment-name: SpringBootAutoDeployment # 自动部署的名称。'
+  dmn:
+    deploy-resources: true # 是否部署资源。默认为''true''。'
+    deployment-name: SpringBootAutoDeployment # DMN资源部署的名字。'
+    enable-safe-xml: true # 在解析DMN XML文件时进行额外检查。参见 https://www.flowable.org/docs/userguide/index.html#advanced.safe.bpmn.xml。不幸的是，部分平台（JDK 6，JBoss）上无法使用这个功能，因此如果你所用的平台在XML解析时不支持StaxSource，需要禁用这个功能。'
+    enabled: false # 是否启用DMN引擎。'
+    history-enabled: false # 是否启用DMN引擎的历史。'
+    resource-location: classpath*:/dmn/ # DMN资源的路径。'
+    resource-suffixes: # **.dmn,**.dmn.xml,**.dmn11,**.dmn11.xml # 需要扫描的资源后缀名。'
+    servlet:
+      load-on-startup: -1 # 启动时加载DMN servlet。'
+      name: Taihang Flowable DMN Rest API # DMN servlet的名字。'
+      path: /dmn-api # DMN servlet的context path。'
+    strict-mode: true # 如果希望避免抉择表命中策略检查导致失败，可以将本参数设置为false。如果检查发现了错误，会直接返回错误前一刻的中间结果。'
+  form:
+    deploy-resources: true # 是否部署资源。默认为''true''。'
+    deployment-name: TaihangAutoDeployment # Form资源部署的名字。'
+    enabled: false # 是否启用Form引擎。'
+    resource-location: classpath*:/forms/ # Form资源的路径。'
+    resource-suffixes: # **.form # 需要扫描的资源后缀名。'
+    servlet:
+      load-on-startup: -1 # 启动时加载Form servlet。'
+      name: Flowable Form Rest API # Form servlet的名字。'
+      path: /form-api # Form servlet的context path。'
+  history-level: audit # 要使用的历史级别。'
+  process:
+    async:
+      executor:
+        async-job-lock-time-in-millis: 300000 # 异步作业在被异步执行器取走后的锁定时间（以毫秒计）。在这段时间内，其它异步执行器不会尝试获取及锁定这个任务。'
+        default-async-job-acquire-wait-time-in-millis: 10000 # 异步作业获取线程在进行下次获取查询前的等待时间（以毫秒计）。只在当次没有取到新的异步作业，或者只取到很少的异步作业时生效。默认值= 10秒。'
+        default-queue-size-full-wait-time-in-millis: 0 # 异步作业（包括定时器作业与异步执行）获取线程在队列满时，等待执行下次查询的等待时间（以毫秒计）。默认值为0（以向后兼容）'
+        default-timer-job-acquire-wait-time-in-millis: 10000 # 定时器作业获取线程在进行下次获取查询前的等待时间（以毫秒计）。只在当次没有取到新的定时器作业，或者只取到很少的定时器作业时生效。默认值= 10秒。'
+        max-async-jobs-due-per-acquisition: 1 # （译者补）单次查询的异步作业数量。默认值为1，以降低乐观锁异常的可能性。除非你知道自己在做什么，否则请不要修改这个值。'
+        retry-wait-time-in-millis: 500 # ???（译者补不了了）'
+        timer-lock-time-in-millis: 300000 # 定时器作业在被异步执行器取走后的锁定时间（以毫秒计）。在这段时间内，其它异步执行器不会尝试获取及锁定这个任务。'
+    definition-cache-limit: -1 # 流程定义缓存中保存流程定义的最大数量。默认值为-1（缓存所有流程定义）。'
+    enable-safe-xml: true # 在解析BPMN XML文件时进行额外检查。参见 https://www.flowable.org/docs/userguide/index.html#advanced.safe.bpmn.xml。不幸的是，部分平台（JDK 6，JBoss）上无法使用这个功能，因此如果你所用的平台在XML解析时不支持StaxSource，需要禁用这个功能。'
+    servlet:
+      load-on-startup: -1 # 启动时加载Process servlet。'
+      name: Taihang Flowable BPMN Rest API # Process servlet的名字。'
+      path: /process-api # Process servelet的context path。'
+  process-definition-location-prefix: classpath*:/processes/ # 自动部署时查找流程的目录。'
+  process-definition-location-suffixes: # **.bpmn20.xml,**.bpmn # ''processDefinitionLocationPrefix''路径下需要部署的文件的后缀（扩展名）。'
+  db-identity-used: false

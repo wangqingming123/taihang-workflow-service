@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: unit
+  application:
+    name: workflow
+  cloud:
+    kubernetes:
+      config:
+        namespace: taihang
+        sources:
+          - name: service
+          - name: starter
+          - name: workflow-datasource
+          - name: workflow
+          - name: kafka
+          - name: redis
+      reload:
+        # 自动更新配置的开关设置为打开
+        enabled: true
+        mode: event

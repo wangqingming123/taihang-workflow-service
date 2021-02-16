@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow-service
+  namespace: taihang
+  labels: #自定义标签
+    name: 'demo'     #自定义标签名字
+  annotations:       #自定义注释列表
+    name: 'this is a demo annotations'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workflow-service
+  template:
+    metadata:
+      labels:
+        app: workflow-service
+    spec:
+      serviceAccount: config-reader
+      containers:
+        - name: workflow-service
+          image: nexus.allintechinc.com:38083/taihang-workflow-service:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+      imagePullSecrets:
+        - name: docker-local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # service的名字非常重要，必须跟application.properties的eureka.client.serviceUrl.defaultZone=http://server-eureka-server:10001/eureka/ 中的域名相同
+  name: workflow
+  namespace: taihang
+spec:
+  selector:
+    app: workflow-service
+  # 使用NodePort类型的Service，绑定service的10001端口到宿主机，以便在物理机浏览器上看注册中心的信息
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
